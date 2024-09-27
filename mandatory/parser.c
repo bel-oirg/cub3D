@@ -6,7 +6,7 @@
 /*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 01:40:05 by aelmrabe          #+#    #+#             */
-/*   Updated: 2024/09/26 11:08:10 by bel-oirg         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:27:07 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void preparing_2d(t_mlx *mlx)
 		map[i] = line;
 		i--;
 	}
-	map[i] = NULL;
+	// map[i] = NULL;
 }
 
 void to_2d(t_mlx *mlx)

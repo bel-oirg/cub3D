@@ -1,7 +1,7 @@
 NAME = cub3d
 BONUS_NAME = cub3d_bonus
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 OBJ_DIR = obj
 SRC_DIR = mandatory

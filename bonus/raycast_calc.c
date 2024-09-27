@@ -4,6 +4,8 @@ int	wall_hit(float x, float y, t_mlx *mlx)
 {
 	int		x_m;
 	int		y_m;
+	int		x_p;
+	int		y_p;
 
 	if (x < 0 || y < 0)
 		return (1);
@@ -16,7 +18,13 @@ int	wall_hit(float x, float y, t_mlx *mlx)
 		if (mlx->dt->map2d[y_m][x_m] == '1')
 			return (1);
 		if (mlx->dt->map2d[y_m][x_m] == 'D')
+		{
+			x_p = round(mlx->ply->plyr_x / TILE_SIZE);
+			y_p = round(mlx->ply->plyr_y / TILE_SIZE);
+			if ((abs(x_m - x_p) < 2) && abs(y_m - y_p < 2))
+				return (0);
 			return (2);
+		}
 	}
 	return (0);
 }
