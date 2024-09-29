@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering_helper.c                                 :+:      :+:    :+:   */
+/*   rendering_helper_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 08:30:36 by bel-oirg          #+#    #+#             */
-/*   Updated: 2024/09/28 12:02:49 by bel-oirg         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:49:27 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub.h"
+#include "../inc/cub_bonus.h"
 
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 {

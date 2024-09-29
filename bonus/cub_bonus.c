@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub.c                                              :+:      :+:    :+:   */
+/*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:21:22 by bel-oirg          #+#    #+#             */
-/*   Updated: 2024/09/27 08:40:24 by bel-oirg         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:45:50 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub.h"
+#include "../inc/cub_bonus.h"
 
 void	game_loop(void *ml)
 {
@@ -21,6 +21,8 @@ void	game_loop(void *ml)
 	mlx->img = mlx_new_image(mlx->mlx_p, S_W, S_H);
 	hook(mlx, 0, 0);
 	cast_rays(mlx);
+	render_sp(mlx);
+	mini_map(mlx);
 	mlx_image_to_window(mlx->mlx_p, mlx->img, 0, 0);
 }
 
@@ -45,10 +47,47 @@ void	init_the_player(t_mlx *mlx)
 	mlx->ply->u_d = 0;
 }
 
+void	mouse_mod_updating(mouse_key_t key, action_t action,
+		modifier_key_t mods, void *param)
+{
+	t_mlx	*mlx;
+
+	mlx = (t_mlx *)param;
+	(void)mods;
+	if (key == MLX_MOUSE_BUTTON_LEFT && (action == MLX_PRESS
+			|| action == MLX_REPEAT))
+		mlx->sprite->is_sp = 1;
+}
+
+void	mouse_movement(double xpos, double ypos, void *param)
+{
+	static double	lastx = 0;
+	static double	lasty = 0;
+	t_mlx			*mlx;
+	double			xoffset;
+	double			yoffset;
+
+	mlx = (t_mlx *)param;
+	xoffset = xpos - lastx;
+	yoffset = lasty - ypos;
+	lastx = xpos;
+	lasty = ypos;
+	mlx->ply->angle += xoffset * 0.005;
+	mlx->ply->u_d += yoffset * 0.005;
+	if (mlx->ply->angle > 2 * M_PI)
+		mlx->ply->angle -= 2 * M_PI;
+	else if (mlx->ply->angle < 0)
+		mlx->ply->angle += 2 * M_PI;
+}
+
 void	start_the_game(t_mlx *mlx)
 {
 	init_the_player(mlx);
+	sprited(mlx);
+	mlx_set_mouse_pos(mlx->mlx_p, S_W / 2, S_H / 2);
 	mlx_loop_hook(mlx->mlx_p, &game_loop, mlx);
 	mlx_key_hook(mlx->mlx_p, &mlx_key, mlx);
+	mlx_cursor_hook(mlx->mlx_p, &mouse_movement, mlx);
+	mlx_mouse_hook(mlx->mlx_p, &mouse_mod_updating, mlx);
 	mlx_loop(mlx->mlx_p);
 }

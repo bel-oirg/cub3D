@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 01:40:05 by aelmrabe          #+#    #+#             */
-/*   Updated: 2024/09/28 12:04:08 by bel-oirg         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:51:06 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub.h"
+#include "../inc/cub_bonus.h"
 
 void	copy_content(t_mlx *mlx)
 {
@@ -116,7 +116,7 @@ void	parse(t_mlx *mlx, char *file_name)
 	file_check(mlx, file_name, ".cub");
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
-		before_exit(mlx, 1);
+		exit(before_exit(mlx, 1));
 	read_file(mlx, fd);
 	verify_elements(mlx);
 	to_2d(mlx);

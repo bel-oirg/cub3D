@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering.c                                        :+:      :+:    :+:   */
+/*   rendering_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelmrabe <aelmrabe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:19:04 by bel-oirg          #+#    #+#             */
-/*   Updated: 2024/09/28 19:25:33 by aelmrabe         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:49:38 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub.h"
+#include "../inc/cub_bonus.h"
 
 void	draw_floor_ceiling(t_mlx *mlx, int ray, int t_pix, int b_pix)
 {
@@ -28,15 +28,17 @@ void	draw_floor_ceiling(t_mlx *mlx, int ray, int t_pix, int b_pix)
 		my_mlx_pixel_put(mlx, ray, i++, f);
 }
 
-mlx_texture_t	*get_texture_dir(t_mlx *mlx, int flag)
+mlx_texture_t	*get_texture_dir(t_mlx *mlx, int flag, int wall_ty)
 {
+	if (wall_ty == 2)
+		return (mlx->dt->txtr->door);
 	mlx->ray->ray_ngl = nor_angle(mlx->ray->ray_ngl);
 	if (flag == 0)
 	{
 		if (mlx->ray->ray_ngl > M_PI / 2 && mlx->ray->ray_ngl < 3 * (M_PI / 2))
-			return (mlx->dt->txtr->ea);
-		else
 			return (mlx->dt->txtr->we);
+		else
+			return (mlx->dt->txtr->ea);
 	}
 	else
 	{
@@ -55,7 +57,7 @@ void	draw_wall(t_mlx *mlx, int ray, t_dvector pix, double wall_h)
 	double			factor;
 	int				pixel;
 
-	texture = get_texture_dir(mlx, mlx->ray->flag);
+	texture = get_texture_dir(mlx, mlx->ray->flag, mlx->wall_ty);
 	pixles = (uint32_t *)texture->pixels;
 	factor = (double)texture->height / wall_h;
 	offset.x = offset_x(mlx, texture);

@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_mv.c                                        :+:      :+:    :+:   */
+/*   player_mv_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:20:19 by bel-oirg          #+#    #+#             */
-/*   Updated: 2024/09/29 09:33:56 by bel-oirg         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:51:01 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub.h"
+#include "../inc/cub_bonus.h"
+
+void	rotate_player(t_mlx *mlx, int i)
+{
+	if (i == 1)
+	{
+		mlx->ply->angle += ROTATION_SPEED;
+		if (mlx->ply->angle > 2 * M_PI)
+			mlx->ply->angle -= 2 * M_PI;
+	}
+	else
+	{
+		mlx->ply->angle -= ROTATION_SPEED;
+		if (mlx->ply->angle < 0)
+			mlx->ply->angle += 2 * M_PI;
+	}
+}
 
 int	check_new_position(t_mlx *mlx, t_ivector new_cor)
 {

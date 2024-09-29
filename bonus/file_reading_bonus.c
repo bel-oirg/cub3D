@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_reading.c                                     :+:      :+:    :+:   */
+/*   file_reading_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 00:54:24 by aelmrabe          #+#    #+#             */
-/*   Updated: 2024/09/26 11:07:45 by bel-oirg         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:46:11 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub.h"
+#include "../inc/cub_bonus.h"
 
 int	line_len(char *line)
 {
@@ -95,7 +95,7 @@ void	file_check(t_mlx *mlx, char *file, char *ext)
 			file_name = file + i + 1;
 		i++;
 	}
-	if (file_name[0] == '.')
+	if (ft_strlen(file_name) <= 4)
 		exit(before_exit(mlx, 1));
 	len -= 4;
 	if (ft_strcmp(file + len, ext) != 0)

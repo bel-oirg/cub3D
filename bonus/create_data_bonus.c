@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_data.c                                      :+:      :+:    :+:   */
+/*   create_data_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelmrabe <aelmrabe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:02:15 by aelmrabe          #+#    #+#             */
-/*   Updated: 2024/09/28 19:23:40 by aelmrabe         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:45:31 by bel-oirg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub.h"
+#include "../inc/cub_bonus.h"
 
 void	allocate_t_tmp(t_mlx *raw)
 {
@@ -55,6 +55,9 @@ void	data_creating(t_mlx *mlx)
 	mlx->dt->txtr->we = NULL;
 	mlx->dt->txtr->no = NULL;
 	mlx->dt->txtr->so = NULL;
+	mlx->dt->txtr->door = mlx_load_png(DOOR);
+	if (!mlx->dt->txtr->door)
+		before_exit(mlx, 1);
 	mlx->dt->h_map = 0;
 	mlx->dt->w_map = 0;
 	mlx->dt->p_x = 0;
@@ -63,6 +66,9 @@ void	data_creating(t_mlx *mlx)
 
 int	before_exit(t_mlx *mlx, int error)
 {
+	int	index;
+
+	index = -1;
 	if (error)
 		printf("Error\n");
 	if (mlx->dt->txtr->ea)
@@ -73,9 +79,13 @@ int	before_exit(t_mlx *mlx, int error)
 		mlx_delete_texture(mlx->dt->txtr->we);
 	if (mlx->dt->txtr->so)
 		mlx_delete_texture(mlx->dt->txtr->so);
+	while (++index < SP_FRAMES)
+		if (mlx->sprite->txt[index])
+			mlx_delete_texture(mlx->sprite->txt[index]);
+	if (mlx->dt->txtr->door)
+		mlx_delete_texture(mlx->dt->txtr->door);
 	if (mlx->img)
 		mlx_delete_image(mlx->mlx_p, mlx->img);
-	mlx_terminate(mlx->mlx_p);
 	my_malloc(0, 14);
 	return (0);
 }
@@ -83,21 +93,24 @@ int	before_exit(t_mlx *mlx, int error)
 t_mlx	*create_mlx_struct(void)
 {
 	t_mlx	*mlx;
+	int		index;
 
 	mlx = (t_mlx *)my_malloc(sizeof(t_mlx), 1);
 	mlx->ray = (t_ray *)my_malloc(sizeof(t_ray), 1);
 	mlx->ply = (t_player *)my_malloc(sizeof(t_player), 1);
 	mlx->dt = (t_data *)my_malloc(sizeof(t_data), 1);
+	mlx->sprite = my_malloc(sizeof(t_sp), 1);
 	allocate_t_tmp(mlx);
-	mlx->mlx_p = mlx_init(S_W, S_H, "cub3d", 0);
+	index = -1;
+	while (++index < SP_FRAMES)
+		mlx->sprite->txt[index] = NULL;
+	mlx->mlx_p = mlx_init(S_W, S_H, "cub3d", true);
 	if (!mlx->mlx_p)
 		my_malloc(0, 0);
 	mlx->img = mlx_new_image(mlx->mlx_p, S_W, S_H);
 	if (!mlx->img)
-	{
-		mlx_terminate(mlx->mlx_p);
-		my_malloc(0, 0);
-	}
+		(1) && (mlx_terminate(mlx->mlx_p), my_malloc(0, 0));
+	mlx->wall_ty = 0;
 	data_creating(mlx);
 	mlx->mouse_hidden = 0;
 	mlx->ray->distance = 0;
